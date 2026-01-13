@@ -43,7 +43,7 @@ export function Header() {
               <Book className="h-6 w-6 text-primary-foreground" />
             </div>
             <span className="hidden font-display text-xl font-semibold text-foreground sm:inline-block">
-              Livros Angola
+              Livraria JCBA
             </span>
           </Link>
 
