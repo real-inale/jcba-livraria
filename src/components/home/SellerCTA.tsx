@@ -14,7 +14,7 @@ export function SellerCTA() {
           <div className="relative grid gap-8 lg:grid-cols-2 lg:gap-12 items-center">
             <div>
               <h2 className="font-display text-3xl font-bold text-primary-foreground md:text-4xl">
-                Venda os seus livros na maior plataforma de Angola
+                Venda os seus livros na Livraria JCBA
               </h2>
               <p className="mt-4 text-lg text-primary-foreground/90">
                 Junte-se a milhares de vendedores e alcance leitores em todo o país. 

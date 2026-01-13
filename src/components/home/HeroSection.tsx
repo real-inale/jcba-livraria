@@ -15,7 +15,7 @@ export function HeroSection() {
             Descubra o Prazer da Leitura
           </h1>
           <p className="mt-6 text-lg text-primary-foreground/90 md:text-xl animate-slide-up" style={{ animationDelay: '0.1s' }}>
-            A maior livraria online de Angola. Milhares de títulos em livros físicos e digitais, 
+            A sua livraria online de confiança em Angola. Milhares de títulos em livros físicos e digitais, 
             com entrega em todo o país.
           </p>
           
