@@ -19,6 +19,11 @@ import AdminSellers from "./pages/admin/AdminSellers";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminCategories from "./pages/admin/AdminCategories";
 import AdminSettings from "./pages/admin/AdminSettings";
+import SellerDashboard from "./pages/seller/SellerDashboard";
+import SellerBooks from "./pages/seller/SellerBooks";
+import SellerSales from "./pages/seller/SellerSales";
+import SellerCommissions from "./pages/seller/SellerCommissions";
+import SellerSettings from "./pages/seller/SellerSettings";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +49,11 @@ const App = () => (
               <Route path="/admin/pedidos" element={<AdminOrders />} />
               <Route path="/admin/categorias" element={<AdminCategories />} />
               <Route path="/admin/configuracoes" element={<AdminSettings />} />
+              <Route path="/vendedor" element={<SellerDashboard />} />
+              <Route path="/vendedor/livros" element={<SellerBooks />} />
+              <Route path="/vendedor/vendas" element={<SellerSales />} />
+              <Route path="/vendedor/comissoes" element={<SellerCommissions />} />
+              <Route path="/vendedor/configuracoes" element={<SellerSettings />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </CartProvider>
