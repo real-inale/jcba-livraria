@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { CartProvider } from "@/contexts/CartContext";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { RequireAuth } from "@/components/auth/RequireAuth";
 import Index from "./pages/Index";
 import AuthPage from "./pages/AuthPage";
 import CatalogPage from "./pages/CatalogPage";
@@ -36,24 +38,32 @@ const App = () => (
             <Toaster />
             <Sonner />
             <Routes>
+              {/* Public Routes */}
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<AuthPage />} />
               <Route path="/livros" element={<CatalogPage />} />
               <Route path="/livro/:id" element={<BookDetailPage />} />
-              <Route path="/carrinho" element={<CartPage />} />
-              <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/pedidos" element={<OrdersPage />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/admin/usuarios" element={<AdminUsers />} />
-              <Route path="/admin/vendedores" element={<AdminSellers />} />
-              <Route path="/admin/pedidos" element={<AdminOrders />} />
-              <Route path="/admin/categorias" element={<AdminCategories />} />
-              <Route path="/admin/configuracoes" element={<AdminSettings />} />
-              <Route path="/vendedor" element={<SellerDashboard />} />
-              <Route path="/vendedor/livros" element={<SellerBooks />} />
-              <Route path="/vendedor/vendas" element={<SellerSales />} />
-              <Route path="/vendedor/comissoes" element={<SellerCommissions />} />
-              <Route path="/vendedor/configuracoes" element={<SellerSettings />} />
+              
+              {/* Authenticated Routes */}
+              <Route path="/carrinho" element={<RequireAuth><CartPage /></RequireAuth>} />
+              <Route path="/checkout" element={<RequireAuth><CheckoutPage /></RequireAuth>} />
+              <Route path="/pedidos" element={<RequireAuth><OrdersPage /></RequireAuth>} />
+              
+              {/* Admin Routes */}
+              <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashboard /></ProtectedRoute>} />
+              <Route path="/admin/usuarios" element={<ProtectedRoute requireAdmin><AdminUsers /></ProtectedRoute>} />
+              <Route path="/admin/vendedores" element={<ProtectedRoute requireAdmin><AdminSellers /></ProtectedRoute>} />
+              <Route path="/admin/pedidos" element={<ProtectedRoute requireAdmin><AdminOrders /></ProtectedRoute>} />
+              <Route path="/admin/categorias" element={<ProtectedRoute requireAdmin><AdminCategories /></ProtectedRoute>} />
+              <Route path="/admin/configuracoes" element={<ProtectedRoute requireAdmin><AdminSettings /></ProtectedRoute>} />
+              
+              {/* Seller Routes */}
+              <Route path="/vendedor" element={<ProtectedRoute requireSeller><SellerDashboard /></ProtectedRoute>} />
+              <Route path="/vendedor/livros" element={<ProtectedRoute requireSeller><SellerBooks /></ProtectedRoute>} />
+              <Route path="/vendedor/vendas" element={<ProtectedRoute requireSeller><SellerSales /></ProtectedRoute>} />
+              <Route path="/vendedor/comissoes" element={<ProtectedRoute requireSeller><SellerCommissions /></ProtectedRoute>} />
+              <Route path="/vendedor/configuracoes" element={<ProtectedRoute requireSeller><SellerSettings /></ProtectedRoute>} />
+              
               <Route path="*" element={<NotFound />} />
             </Routes>
           </CartProvider>
