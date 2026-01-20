@@ -7,6 +7,7 @@ import {
   ShoppingBag, 
   FolderTree, 
   Settings,
+  BookOpen,
   ArrowLeft,
   LogOut
 } from 'lucide-react';
@@ -16,6 +17,7 @@ import { cn } from '@/lib/utils';
 
 const menuItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/admin/livros', label: 'Livros', icon: BookOpen },
   { href: '/admin/utilizadores', label: 'Utilizadores', icon: Users },
   { href: '/admin/vendedores', label: 'Vendedores', icon: Store },
   { href: '/admin/pedidos', label: 'Pedidos', icon: ShoppingBag },
