@@ -17,6 +17,7 @@ import OrdersPage from "./pages/OrdersPage";
 import ProfilePage from "./pages/ProfilePage";
 import NotFound from "./pages/NotFound";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminBooks from "./pages/admin/AdminBooks";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminSellers from "./pages/admin/AdminSellers";
 import AdminOrders from "./pages/admin/AdminOrders";
@@ -53,7 +54,9 @@ const App = () => (
               
               {/* Admin Routes */}
               <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashboard /></ProtectedRoute>} />
+              <Route path="/admin/livros" element={<ProtectedRoute requireAdmin><AdminBooks /></ProtectedRoute>} />
               <Route path="/admin/usuarios" element={<ProtectedRoute requireAdmin><AdminUsers /></ProtectedRoute>} />
+              <Route path="/admin/utilizadores" element={<ProtectedRoute requireAdmin><AdminUsers /></ProtectedRoute>} />
               <Route path="/admin/vendedores" element={<ProtectedRoute requireAdmin><AdminSellers /></ProtectedRoute>} />
               <Route path="/admin/pedidos" element={<ProtectedRoute requireAdmin><AdminOrders /></ProtectedRoute>} />
               <Route path="/admin/categorias" element={<ProtectedRoute requireAdmin><AdminCategories /></ProtectedRoute>} />
