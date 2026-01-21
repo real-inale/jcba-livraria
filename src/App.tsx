@@ -15,6 +15,7 @@ import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import OrdersPage from "./pages/OrdersPage";
 import ProfilePage from "./pages/ProfilePage";
+import NotificationsPage from "./pages/NotificationsPage";
 import NotFound from "./pages/NotFound";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminBooks from "./pages/admin/AdminBooks";
@@ -51,6 +52,7 @@ const App = () => (
               <Route path="/checkout" element={<RequireAuth><CheckoutPage /></RequireAuth>} />
               <Route path="/pedidos" element={<RequireAuth><OrdersPage /></RequireAuth>} />
               <Route path="/perfil" element={<RequireAuth><ProfilePage /></RequireAuth>} />
+              <Route path="/notificacoes" element={<RequireAuth><NotificationsPage /></RequireAuth>} />
               
               {/* Admin Routes */}
               <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashboard /></ProtectedRoute>} />

@@ -205,6 +205,8 @@ export type Database = {
           id: string
           is_read: boolean | null
           message: string
+          reference_id: string | null
+          reference_type: string | null
           title: string
           type: string | null
           user_id: string
@@ -214,6 +216,8 @@ export type Database = {
           id?: string
           is_read?: boolean | null
           message: string
+          reference_id?: string | null
+          reference_type?: string | null
           title: string
           type?: string | null
           user_id: string
@@ -223,6 +227,8 @@ export type Database = {
           id?: string
           is_read?: boolean | null
           message?: string
+          reference_id?: string | null
+          reference_type?: string | null
           title?: string
           type?: string | null
           user_id?: string
