@@ -67,9 +67,6 @@ export function Header() {
               <Link to="/livros">Catálogo</Link>
             </Button>
             <Button variant="ghost" size="sm" asChild>
-              <Link to="/categorias">Categorias</Link>
-            </Button>
-            <Button variant="ghost" size="sm" asChild>
               <Link to="/lojas">Livrarias</Link>
             </Button>
 
@@ -184,9 +181,6 @@ export function Header() {
             <nav className="flex flex-col gap-2">
               <Button variant="ghost" className="justify-start" asChild>
                 <Link to="/livros" onClick={() => setMobileMenuOpen(false)}>Catálogo</Link>
-              </Button>
-              <Button variant="ghost" className="justify-start" asChild>
-                <Link to="/categorias" onClick={() => setMobileMenuOpen(false)}>Categorias</Link>
               </Button>
               <Button variant="ghost" className="justify-start" asChild>
                 <Link to="/lojas" onClick={() => setMobileMenuOpen(false)}>Livrarias</Link>
