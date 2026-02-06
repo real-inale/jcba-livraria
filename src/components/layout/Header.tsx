@@ -69,7 +69,10 @@ export function Header() {
             <Button variant="ghost" size="sm" asChild>
               <Link to="/categorias">Categorias</Link>
             </Button>
-            
+            <Button variant="ghost" size="sm" asChild>
+              <Link to="/lojas">Livrarias</Link>
+            </Button>
+
             {user ? (
               <>
                 {/* Cart */}
@@ -184,6 +187,9 @@ export function Header() {
               </Button>
               <Button variant="ghost" className="justify-start" asChild>
                 <Link to="/categorias" onClick={() => setMobileMenuOpen(false)}>Categorias</Link>
+              </Button>
+              <Button variant="ghost" className="justify-start" asChild>
+                <Link to="/lojas" onClick={() => setMobileMenuOpen(false)}>Livrarias</Link>
               </Button>
               {user ? (
                 <>

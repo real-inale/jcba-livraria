@@ -1,5 +1,5 @@
 import { Layout } from '@/components/layout/Layout';
-import { HeroSection } from '@/components/home/HeroSection';
+import { Hero3D } from '@/components/marketplace/Hero3D';
 import { CategoriesSection } from '@/components/home/CategoriesSection';
 import { FeaturedBooks } from '@/components/home/FeaturedBooks';
 import { SellerCTA } from '@/components/home/SellerCTA';
@@ -7,7 +7,7 @@ import { SellerCTA } from '@/components/home/SellerCTA';
 const Index = () => {
   return (
     <Layout>
-      <HeroSection />
+      <Hero3D />
       <CategoriesSection />
       <FeaturedBooks />
       <SellerCTA />

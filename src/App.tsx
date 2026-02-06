@@ -34,6 +34,8 @@ import HelpCenter from "./pages/HelpCenter";
 import ClientTerms from "./pages/terms/ClientTerms";
 import SellerTerms from "./pages/terms/SellerTerms";
 import PrivacyPolicy from "./pages/terms/PrivacyPolicy";
+import StoresPage from "./pages/StoresPage";
+import StoreDetailsPage from "./pages/StoreDetailsPage";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +53,8 @@ const App = () => (
               <Route path="/auth" element={<AuthPage />} />
               <Route path="/livros" element={<CatalogPage />} />
               <Route path="/livro/:id" element={<BookDetailPage />} />
+              <Route path="/lojas" element={<StoresPage />} />
+              <Route path="/loja/:id" element={<StoreDetailsPage />} />
               <Route path="/ajuda" element={<HelpCenter />} />
               <Route path="/termos-clientes" element={<ClientTerms />} />
               <Route path="/termos-vendedores" element={<SellerTerms />} />

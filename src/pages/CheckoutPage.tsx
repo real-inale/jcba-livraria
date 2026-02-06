@@ -26,7 +26,7 @@ export default function CheckoutPage() {
   const navigate = useNavigate();
   const { user, profile } = useAuth();
   const { items, total, clearCart } = useCart();
-  
+
   const [paymentMethods, setPaymentMethods] = useState<PaymentSetting[]>([]);
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod | null>(null);
   const [shippingAddress, setShippingAddress] = useState(profile?.address || '');
@@ -35,14 +35,14 @@ export default function CheckoutPage() {
   const [proofFile, setProofFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
-  const [orderNumber, setOrderNumber] = useState('');
+  const [orderNumbers, setOrderNumbers] = useState<string[]>([]);
 
   useEffect(() => {
     if (!user) {
       navigate('/auth');
       return;
     }
-    
+
     if (items.length === 0 && !orderComplete) {
       navigate('/carrinho');
       return;
@@ -56,7 +56,7 @@ export default function CheckoutPage() {
       .from('payment_settings')
       .select('*')
       .eq('is_active', true);
-    
+
     if (data) {
       setPaymentMethods(data as PaymentSetting[]);
       if (data.length > 0) {
@@ -79,7 +79,7 @@ export default function CheckoutPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!selectedMethod) {
       toast.error('Selecione um método de pagamento');
       return;
@@ -93,67 +93,93 @@ export default function CheckoutPage() {
     setIsSubmitting(true);
 
     try {
-      // Generate order number
-      const { data: orderNumData } = await supabase.rpc('generate_order_number');
-      const orderNum = orderNumData || `LA${Date.now()}`;
+      // Group items by seller
+      const itemsBySeller: Record<string, typeof items> = {};
+      items.forEach(item => {
+        const sellerId = item.book?.seller_id;
+        if (sellerId) {
+          if (!itemsBySeller[sellerId]) {
+            itemsBySeller[sellerId] = [];
+          }
+          itemsBySeller[sellerId].push(item);
+        }
+      });
 
-      // Calculate commission (default 15%)
-      const commissionRate = 0.15;
-      const platformCommission = total * commissionRate;
+      const createdOrderNumbers: string[] = [];
+      const commissionRate = 0.15; // 15% platform commission
 
-      // Create order
-      const { data: order, error: orderError } = await supabase
-        .from('orders')
-        .insert({
-          customer_id: user!.id,
-          order_number: orderNum,
-          subtotal: total,
-          total: total,
-          platform_commission: platformCommission,
-          payment_method: selectedMethod,
-          shipping_address: hasPhysicalBooks ? shippingAddress : null,
-          notes: notes || null,
-          status: 'pending',
-        })
-        .select()
-        .single();
+      // Process order for each seller
+      for (const sellerId of Object.keys(itemsBySeller)) {
+        const sellerItems = itemsBySeller[sellerId];
 
-      if (orderError) throw orderError;
+        // Calculate totals for this specific seller order
+        const sellerSubtotal = sellerItems.reduce((sum, item) => {
+          return sum + (item.book?.price || 0) * item.quantity;
+        }, 0);
 
-      // Create order items
-      const orderItems = items.map(item => ({
-        order_id: order.id,
-        book_id: item.book_id,
-        seller_id: item.book?.seller_id,
-        quantity: item.quantity,
-        unit_price: item.book?.price || 0,
-        commission_amount: (item.book?.price || 0) * item.quantity * commissionRate,
-      }));
+        const sellerTotal = sellerSubtotal; // Add shipping logic here later if needed
+        const sellerPlatformCommission = sellerTotal * commissionRate;
 
-      const { error: itemsError } = await supabase
-        .from('order_items')
-        .insert(orderItems);
+        // Generate distinct order number for this sub-order
+        const { data: orderNumData } = await supabase.rpc('generate_order_number');
+        // If RPC fails or returns null, fallback to timestamp + random suffix to ensure uniqueness
+        const orderNum = orderNumData || `LA${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+        createdOrderNumbers.push(orderNum);
 
-      if (itemsError) throw itemsError;
+        // Create order record
+        const { data: order, error: orderError } = await supabase
+          .from('orders')
+          .insert({
+            customer_id: user!.id,
+            order_number: orderNum,
+            subtotal: sellerSubtotal,
+            total: sellerTotal,
+            platform_commission: sellerPlatformCommission,
+            payment_method: selectedMethod,
+            shipping_address: hasPhysicalBooks ? shippingAddress : null,
+            notes: notes || null,
+            status: 'pending',
+          })
+          .select()
+          .single();
 
-      // Create notification
+        if (orderError) throw orderError;
+
+        // Create order items for this order
+        const orderItemsToInsert = sellerItems.map(item => ({
+          order_id: order.id,
+          book_id: item.book_id,
+          seller_id: sellerId,
+          quantity: item.quantity,
+          unit_price: item.book?.price || 0,
+          commission_amount: (item.book?.price || 0) * item.quantity * commissionRate,
+        }));
+
+        const { error: itemsError } = await supabase
+          .from('order_items')
+          .insert(orderItemsToInsert);
+
+        if (itemsError) throw itemsError;
+      }
+
+      // Create notification for user
       await supabase.from('notifications').insert({
         user_id: user!.id,
-        title: 'Pedido Criado!',
-        message: `O seu pedido ${orderNum} foi criado com sucesso. Aguarde a confirmação do pagamento.`,
+        title: 'Pedido(s) Criado(s)!',
+        message: `Os seus pedidos (${createdOrderNumbers.join(', ')}) foram criados com sucesso.`,
         type: 'success',
       });
 
       // Clear cart
       await clearCart();
 
-      setOrderNumber(orderNum);
+      setOrderNumbers(createdOrderNumbers);
       setOrderComplete(true);
-      toast.success('Pedido criado com sucesso!');
+      toast.success('Pedidos criados com sucesso!');
 
     } catch (error) {
-      console.error('Error creating order:', error);
-      toast.error('Erro ao criar pedido. Tente novamente.');
+      console.error('Error creating orders:', error);
+      toast.error('Erro ao processar pedidos. Tente novamente.');
     }
 
     setIsSubmitting(false);
@@ -166,10 +192,10 @@ export default function CheckoutPage() {
           <div className="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
             <CheckCircle className="h-10 w-10 text-green-600" />
           </div>
-          
+
           <h1 className="font-display text-2xl font-bold mb-2">Pedido Confirmado!</h1>
           <p className="text-muted-foreground mb-6">
-            O seu pedido <strong>{orderNumber}</strong> foi criado com sucesso.
+            Os seus pedidos <strong>{orderNumbers.join(', ')}</strong> foram criados com sucesso.
           </p>
 
           <Card className="text-left mb-6">
@@ -367,9 +393,9 @@ export default function CheckoutPage() {
                   <span className="text-primary">{formatPrice(total)}</span>
                 </div>
 
-                <Button 
+                <Button
                   type="submit"
-                  className="w-full mt-6" 
+                  className="w-full mt-6"
                   size="lg"
                   disabled={isSubmitting || !selectedMethod}
                 >
