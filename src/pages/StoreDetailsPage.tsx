@@ -5,7 +5,7 @@ import { Layout } from '@/components/layout/Layout';
 import { Book, SellerProfile } from '@/lib/types';
 import { BookCard } from '@/components/books/BookCard';
 import { Button } from '@/components/ui/button';
-import { Store, MapPin, ArrowLeft } from 'lucide-react';
+import { Store, MapPin, ArrowLeft, Book as BookIcon } from 'lucide-react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
@@ -125,7 +125,7 @@ export default function StoreDetailsPage() {
                 {/* Store Books */}
                 <div className="container mx-auto px-4 max-w-6xl mt-12">
                     <h2 className="text-2xl font-playfair font-bold mb-8 flex items-center gap-2">
-                        <Book className="h-6 w-6 text-primary" />
+                        <BookIcon className="h-6 w-6 text-primary" />
                         Catálogo da Loja
                     </h2>
 
