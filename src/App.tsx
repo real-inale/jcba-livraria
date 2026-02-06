@@ -30,6 +30,10 @@ import SellerBooks from "./pages/seller/SellerBooks";
 import SellerSales from "./pages/seller/SellerSales";
 import SellerCommissions from "./pages/seller/SellerCommissions";
 import SellerSettings from "./pages/seller/SellerSettings";
+import HelpCenter from "./pages/HelpCenter";
+import ClientTerms from "./pages/terms/ClientTerms";
+import SellerTerms from "./pages/terms/SellerTerms";
+import PrivacyPolicy from "./pages/terms/PrivacyPolicy";
 
 const queryClient = new QueryClient();
 
@@ -47,6 +51,10 @@ const App = () => (
               <Route path="/auth" element={<AuthPage />} />
               <Route path="/livros" element={<CatalogPage />} />
               <Route path="/livro/:id" element={<BookDetailPage />} />
+              <Route path="/ajuda" element={<HelpCenter />} />
+              <Route path="/termos-clientes" element={<ClientTerms />} />
+              <Route path="/termos-vendedores" element={<SellerTerms />} />
+              <Route path="/privacidade" element={<PrivacyPolicy />} />
 
               {/* Authenticated Routes */}
               <Route path="/carrinho" element={<RequireAuth><CartPage /></RequireAuth>} />
