@@ -4,7 +4,7 @@ import { Book, Mail, Phone, MapPin, Facebook, Instagram, Twitter } from 'lucide-
 export function Footer() {
   return (
     <footer className="bg-primary text-primary-foreground">
-      <div className="container mx-auto px-4 py-12">
+      <div className="w-full px-4 md:px-12 lg:px-16 py-12">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
           {/* Brand */}
           <div>
@@ -15,7 +15,7 @@ export function Footer() {
               <span className="font-display text-xl font-semibold">Livraria JCBA</span>
             </Link>
             <p className="text-primary-foreground/80 text-sm leading-relaxed">
-              A sua livraria online de confiança em Angola. Encontre os melhores livros físicos e digitais 
+              A sua livraria online de confiança em Angola. Encontre os melhores livros físicos e digitais
               com entrega em todo o país.
             </p>
           </div>
@@ -105,7 +105,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-primary-foreground/10 text-center text-sm text-primary-foreground/60">
+        <div className="mt-12 pt-8 border-t border-primary-foreground/10 text-center text-sm text-primary-foreground/60 w-full">
           <p>© {new Date().getFullYear()} Livraria JCBA. Todos os direitos reservados.</p>
         </div>
       </div>

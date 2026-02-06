@@ -21,7 +21,7 @@ export function FeaturedBooks() {
         .eq('is_active', true)
         .order('created_at', { ascending: false })
         .limit(8);
-      
+
       if (data) {
         setBooks(data as Book[]);
       }
@@ -34,7 +34,7 @@ export function FeaturedBooks() {
   if (isLoading) {
     return (
       <section className="py-16">
-        <div className="container mx-auto px-4">
+        <div className="w-full px-4 md:px-12 lg:px-16">
           <div className="animate-pulse">
             <div className="h-8 bg-muted rounded w-48 mb-8" />
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
@@ -54,7 +54,7 @@ export function FeaturedBooks() {
 
   return (
     <section className="py-16">
-      <div className="container mx-auto px-4">
+      <div className="w-full px-4 md:px-12 lg:px-16">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="font-display text-2xl font-bold text-foreground md:text-3xl">
@@ -64,8 +64,8 @@ export function FeaturedBooks() {
               Os livros mais recentes da nossa loja
             </p>
           </div>
-          <Link 
-            to="/livros" 
+          <Link
+            to="/livros"
             className="hidden items-center gap-1 text-sm font-medium text-primary hover:underline sm:flex"
           >
             Ver todos
@@ -80,8 +80,8 @@ export function FeaturedBooks() {
         </div>
 
         <div className="mt-8 text-center sm:hidden">
-          <Link 
-            to="/livros" 
+          <Link
+            to="/livros"
             className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
           >
             Ver todos os livros

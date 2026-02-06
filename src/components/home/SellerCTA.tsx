@@ -5,19 +5,19 @@ import { Button } from '@/components/ui/button';
 export function SellerCTA() {
   return (
     <section className="py-16 bg-card">
-      <div className="container mx-auto px-4">
+      <div className="w-full px-4 md:px-12 lg:px-16">
         <div className="rounded-2xl hero-gradient p-8 md:p-12 lg:p-16 overflow-hidden relative">
           {/* Decorative elements */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary-foreground/5 rounded-full -translate-y-1/2 translate-x-1/2" />
           <div className="absolute bottom-0 left-0 w-48 h-48 bg-primary-foreground/5 rounded-full translate-y-1/2 -translate-x-1/2" />
-          
+
           <div className="relative grid gap-8 lg:grid-cols-2 lg:gap-12 items-center">
             <div>
               <h2 className="font-display text-3xl font-bold text-primary-foreground md:text-4xl">
                 Venda os seus livros na Livraria JCBA
               </h2>
               <p className="mt-4 text-lg text-primary-foreground/90">
-                Junte-se a milhares de vendedores e alcance leitores em todo o país. 
+                Junte-se a milhares de vendedores e alcance leitores em todo o país.
                 Registo simples, comissões justas e pagamentos seguros.
               </p>
 
