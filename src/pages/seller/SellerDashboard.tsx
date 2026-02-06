@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
-import { SellerLayout } from '@/components/seller/SellerLayout';
+import SellerLayout from '@/components/seller/SellerLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookOpen, ShoppingCart, DollarSign, TrendingUp, Package, Clock } from 'lucide-react';
 import { RevenueChart, CategoryPieChart } from '@/components/dashboard/DashboardCharts';
