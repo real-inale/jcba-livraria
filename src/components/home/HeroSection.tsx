@@ -8,17 +8,17 @@ export function HeroSection() {
       {/* Background */}
       <div className="absolute inset-0 hero-gradient" />
       <div className="absolute inset-0 bg-[url('/placeholder.svg')] bg-cover bg-center opacity-10" />
-      
-      <div className="container relative mx-auto px-4 py-16 md:py-24 lg:py-32">
+
+      <div className="relative w-full px-4 md:px-12 lg:px-20 py-16 md:py-24 lg:py-32">
         <div className="mx-auto max-w-3xl text-center">
           <h1 className="font-display text-4xl font-bold tracking-tight text-primary-foreground md:text-5xl lg:text-6xl animate-slide-up">
             Descubra o Prazer da Leitura
           </h1>
           <p className="mt-6 text-lg text-primary-foreground/90 md:text-xl animate-slide-up" style={{ animationDelay: '0.1s' }}>
-            A sua livraria online de confiança em Angola. Milhares de títulos em livros físicos e digitais, 
+            A sua livraria online de confiança em Angola. Milhares de títulos em livros físicos e digitais,
             com entrega em todo o país.
           </p>
-          
+
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center animate-slide-up" style={{ animationDelay: '0.2s' }}>
             <Button size="lg" variant="secondary" className="group gap-2 text-base" asChild>
               <Link to="/livros">
@@ -45,7 +45,7 @@ export function HeroSection() {
               <p className="text-sm text-primary-foreground/80">Livros físicos e digitais</p>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-4 rounded-xl bg-primary-foreground/10 p-4 backdrop-blur">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary-foreground/10">
               <Truck className="h-6 w-6 text-primary-foreground" />
@@ -55,7 +55,7 @@ export function HeroSection() {
               <p className="text-sm text-primary-foreground/80">Em todo o território</p>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-4 rounded-xl bg-primary-foreground/10 p-4 backdrop-blur">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary-foreground/10">
               <Shield className="h-6 w-6 text-primary-foreground" />

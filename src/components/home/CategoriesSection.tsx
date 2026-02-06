@@ -26,7 +26,7 @@ export function CategoriesSection() {
         .from('categories')
         .select('*')
         .order('name');
-      
+
       if (data) {
         setCategories(data as Category[]);
       }
@@ -37,7 +37,7 @@ export function CategoriesSection() {
 
   return (
     <section className="py-16 bg-secondary/30">
-      <div className="container mx-auto px-4">
+      <div className="w-full px-4 md:px-12 lg:px-16">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="font-display text-2xl font-bold text-foreground md:text-3xl">
@@ -47,8 +47,8 @@ export function CategoriesSection() {
               Encontre o livro perfeito por categoria
             </p>
           </div>
-          <Link 
-            to="/categorias" 
+          <Link
+            to="/categorias"
             className="hidden items-center gap-1 text-sm font-medium text-primary hover:underline sm:flex"
           >
             Ver todas
@@ -72,8 +72,8 @@ export function CategoriesSection() {
         </div>
 
         <div className="mt-6 text-center sm:hidden">
-          <Link 
-            to="/categorias" 
+          <Link
+            to="/categorias"
             className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
           >
             Ver todas as categorias
