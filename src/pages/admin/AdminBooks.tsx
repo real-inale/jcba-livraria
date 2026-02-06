@@ -11,12 +11,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
-import { 
-  Plus, 
-  Pencil, 
-  Trash2, 
-  Search, 
-  BookOpen, 
+import {
+  Plus,
+  Pencil,
+  Trash2,
+  Search,
+  BookOpen,
   Eye,
   EyeOff,
   MoreHorizontal,
@@ -60,6 +60,7 @@ interface BookForm {
   cover_image_url: string;
   digital_file_url: string;
   is_active: boolean;
+  approval_status: 'pending' | 'approved' | 'rejected';
   seller_id: string;
 }
 
@@ -80,6 +81,7 @@ const initialForm: BookForm = {
   cover_image_url: '',
   digital_file_url: '',
   is_active: true,
+  approval_status: 'approved', // Admin creates approved books by default
   seller_id: '',
 };
 
@@ -183,6 +185,7 @@ export default function AdminBooks() {
       cover_image_url: form.cover_image_url || null,
       digital_file_url: form.digital_file_url || null,
       is_active: form.is_active,
+      approval_status: form.approval_status,
       seller_id: form.seller_id,
     };
 
@@ -236,6 +239,7 @@ export default function AdminBooks() {
       cover_image_url: book.cover_image_url || '',
       digital_file_url: book.digital_file_url || '',
       is_active: book.is_active ?? true,
+      approval_status: book.approval_status ?? 'approved',
       seller_id: book.seller_id || '',
     });
     setIsDialogOpen(true);
@@ -272,7 +276,7 @@ export default function AdminBooks() {
         .eq('id', book.id);
 
       if (error) throw error;
-      toast({ 
+      toast({
         title: book.is_active ? 'Livro desactivado' : 'Livro activado',
       });
       fetchData();
@@ -286,18 +290,18 @@ export default function AdminBooks() {
   };
 
   const filteredBooks = books.filter(book => {
-    const matchesSearch = 
+    const matchesSearch =
       book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       book.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
       book.seller_profiles?.store_name?.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    const matchesStatus = 
-      filterStatus === 'all' || 
-      (filterStatus === 'active' && book.is_active) || 
+
+    const matchesStatus =
+      filterStatus === 'all' ||
+      (filterStatus === 'active' && book.is_active) ||
       (filterStatus === 'inactive' && !book.is_active);
 
-    const matchesCategory = 
-      filterCategory === 'all' || 
+    const matchesCategory =
+      filterCategory === 'all' ||
       book.category_id === filterCategory;
 
     return matchesSearch && matchesStatus && matchesCategory;
@@ -648,6 +652,23 @@ export default function AdminBooks() {
                   </div>
                 )}
 
+                <div className="space-y-2">
+                  <Label htmlFor="approval_status">Estado de Aprovação</Label>
+                  <Select
+                    value={form.approval_status}
+                    onValueChange={(value: 'pending' | 'approved' | 'rejected') => setForm({ ...form, approval_status: value })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="pending">Pendente</SelectItem>
+                      <SelectItem value="approved">Aprovado</SelectItem>
+                      <SelectItem value="rejected">Rejeitado</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 <div className="flex items-center space-x-2">
                   <Switch
                     id="is_active"
@@ -681,8 +702,8 @@ export default function AdminBooks() {
           <CardContent className="py-12 text-center">
             <BookOpen className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
             <p className="text-muted-foreground">
-              {searchQuery || filterStatus !== 'all' || filterCategory !== 'all' 
-                ? 'Nenhum livro encontrado com os filtros aplicados.' 
+              {searchQuery || filterStatus !== 'all' || filterCategory !== 'all'
+                ? 'Nenhum livro encontrado com os filtros aplicados.'
                 : 'Ainda não há livros na plataforma.'}
             </p>
           </CardContent>
@@ -788,7 +809,7 @@ export default function AdminBooks() {
                             )}
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem 
+                          <DropdownMenuItem
                             className="text-destructive"
                             onClick={() => {
                               setDeletingBook(book);

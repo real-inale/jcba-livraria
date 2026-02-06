@@ -19,6 +19,7 @@ import NotificationsPage from "./pages/NotificationsPage";
 import NotFound from "./pages/NotFound";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminBooks from "./pages/admin/AdminBooks";
+import AdminBookReview from "./pages/admin/AdminBookReview";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminSellers from "./pages/admin/AdminSellers";
 import AdminOrders from "./pages/admin/AdminOrders";
@@ -46,31 +47,32 @@ const App = () => (
               <Route path="/auth" element={<AuthPage />} />
               <Route path="/livros" element={<CatalogPage />} />
               <Route path="/livro/:id" element={<BookDetailPage />} />
-              
+
               {/* Authenticated Routes */}
               <Route path="/carrinho" element={<RequireAuth><CartPage /></RequireAuth>} />
               <Route path="/checkout" element={<RequireAuth><CheckoutPage /></RequireAuth>} />
               <Route path="/pedidos" element={<RequireAuth><OrdersPage /></RequireAuth>} />
               <Route path="/perfil" element={<RequireAuth><ProfilePage /></RequireAuth>} />
               <Route path="/notificacoes" element={<RequireAuth><NotificationsPage /></RequireAuth>} />
-              
+
               {/* Admin Routes */}
               <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashboard /></ProtectedRoute>} />
               <Route path="/admin/livros" element={<ProtectedRoute requireAdmin><AdminBooks /></ProtectedRoute>} />
+              <Route path="/admin/revisao-livros" element={<ProtectedRoute requireAdmin><AdminBookReview /></ProtectedRoute>} />
               <Route path="/admin/usuarios" element={<ProtectedRoute requireAdmin><AdminUsers /></ProtectedRoute>} />
               <Route path="/admin/utilizadores" element={<ProtectedRoute requireAdmin><AdminUsers /></ProtectedRoute>} />
               <Route path="/admin/vendedores" element={<ProtectedRoute requireAdmin><AdminSellers /></ProtectedRoute>} />
               <Route path="/admin/pedidos" element={<ProtectedRoute requireAdmin><AdminOrders /></ProtectedRoute>} />
               <Route path="/admin/categorias" element={<ProtectedRoute requireAdmin><AdminCategories /></ProtectedRoute>} />
               <Route path="/admin/configuracoes" element={<ProtectedRoute requireAdmin><AdminSettings /></ProtectedRoute>} />
-              
+
               {/* Seller Routes */}
               <Route path="/vendedor" element={<ProtectedRoute requireSeller><SellerDashboard /></ProtectedRoute>} />
               <Route path="/vendedor/livros" element={<ProtectedRoute requireSeller><SellerBooks /></ProtectedRoute>} />
               <Route path="/vendedor/vendas" element={<ProtectedRoute requireSeller><SellerSales /></ProtectedRoute>} />
               <Route path="/vendedor/comissoes" element={<ProtectedRoute requireSeller><SellerCommissions /></ProtectedRoute>} />
               <Route path="/vendedor/configuracoes" element={<ProtectedRoute requireSeller><SellerSettings /></ProtectedRoute>} />
-              
+
               <Route path="*" element={<NotFound />} />
             </Routes>
           </CartProvider>

@@ -1,11 +1,11 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { 
-  LayoutDashboard, 
-  Users, 
-  Store, 
-  ShoppingBag, 
-  FolderTree, 
+import {
+  LayoutDashboard,
+  Users,
+  Store,
+  ShoppingBag,
+  FolderTree,
   Settings,
   BookOpen,
   ArrowLeft,
@@ -13,7 +13,8 @@ import {
   Menu,
   X,
   Bell,
-  ChevronRight
+  ChevronRight,
+  ClipboardCheck
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -25,6 +26,7 @@ import { supabase } from '@/integrations/supabase/client';
 const menuItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { href: '/admin/livros', label: 'Livros', icon: BookOpen },
+  { href: '/admin/revisao-livros', label: 'Revisão', icon: ClipboardCheck },
   { href: '/admin/utilizadores', label: 'Utilizadores', icon: Users },
   { href: '/admin/vendedores', label: 'Vendedores', icon: Store },
   { href: '/admin/pedidos', label: 'Pedidos', icon: ShoppingBag },
@@ -160,9 +162,9 @@ export function AdminLayout({ children, title, description }: AdminLayoutProps) 
               </p>
             </div>
           </div>
-          
-          <Button 
-            variant="ghost" 
+
+          <Button
+            variant="ghost"
             className="w-full justify-start text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/50 rounded-xl"
             asChild
           >
@@ -171,8 +173,8 @@ export function AdminLayout({ children, title, description }: AdminLayoutProps) 
               Voltar à Loja
             </Link>
           </Button>
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             className="w-full justify-start text-destructive/80 hover:text-destructive hover:bg-destructive/10 rounded-xl"
             onClick={handleSignOut}
           >
@@ -193,7 +195,7 @@ export function AdminLayout({ children, title, description }: AdminLayoutProps) 
           >
             {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </Button>
-          
+
           <Link to="/" className="flex items-center gap-2">
             <BookOpen className="h-6 w-6 text-sidebar-primary" />
             <span className="font-display font-bold text-sidebar-foreground">Admin</span>
@@ -283,7 +285,7 @@ export function AdminLayout({ children, title, description }: AdminLayoutProps) 
 
       {/* Mobile Overlay */}
       {sidebarOpen && (
-        <div 
+        <div
           className="lg:hidden fixed inset-0 bg-black/50 z-30"
           onClick={() => setSidebarOpen(false)}
         />

@@ -3,6 +3,7 @@ export type SellerStatus = 'pending' | 'approved' | 'suspended' | 'rejected';
 export type OrderStatus = 'pending' | 'awaiting_payment' | 'paid' | 'processing' | 'completed' | 'cancelled';
 export type PaymentMethod = 'multicaixa_express' | 'atm_reference' | 'paypay' | 'visa';
 export type BookType = 'physical' | 'digital' | 'both';
+export type BookApprovalStatus = 'pending' | 'approved' | 'rejected';
 
 export interface Profile {
   id: string;
@@ -65,6 +66,7 @@ export interface Book {
   publisher?: string;
   published_year?: number;
   language: string;
+  approval_status: BookApprovalStatus;
   is_active: boolean;
   created_at: string;
   updated_at: string;
@@ -178,4 +180,10 @@ export const BOOK_TYPE_LABELS: Record<BookType, string> = {
   physical: 'Físico',
   digital: 'Digital',
   both: 'Físico e Digital',
+};
+
+export const BOOK_APPROVAL_STATUS_LABELS: Record<BookApprovalStatus, string> = {
+  pending: 'Pendente de Revisão',
+  approved: 'Aprovado',
+  rejected: 'Rejeitado',
 };
