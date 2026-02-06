@@ -40,27 +40,27 @@ export default function AuthPage() {
   const [searchParams] = useSearchParams();
   const { user, signIn, signUp, refreshProfile } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const mode = searchParams.get('mode') || 'login';
   const initialType = searchParams.get('type') as SignupType || 'client';
-  
+
   const [activeTab, setActiveTab] = useState(mode === 'signup' || mode === 'seller' ? 'signup' : 'login');
   const [signupType, setSignupType] = useState<SignupType>(mode === 'seller' ? 'seller' : initialType);
 
   const [loginData, setLoginData] = useState({ email: '', password: '' });
-  const [clientSignupData, setClientSignupData] = useState({ 
-    fullName: '', 
-    email: '', 
-    password: '', 
-    acceptTerms: false 
+  const [clientSignupData, setClientSignupData] = useState({
+    fullName: '',
+    email: '',
+    password: '',
+    acceptTerms: false
   });
-  const [sellerSignupData, setSellerSignupData] = useState({ 
-    fullName: '', 
-    email: '', 
-    password: '', 
+  const [sellerSignupData, setSellerSignupData] = useState({
+    fullName: '',
+    email: '',
+    password: '',
     storeName: '',
     storeDescription: '',
-    acceptTerms: false 
+    acceptTerms: false
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -73,7 +73,7 @@ export default function AuthPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
-    
+
     const result = loginSchema.safeParse(loginData);
     if (!result.success) {
       const fieldErrors: Record<string, string> = {};
@@ -99,7 +99,7 @@ export default function AuthPage() {
   const handleClientSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
-    
+
     const result = clientSignupSchema.safeParse(clientSignupData);
     if (!result.success) {
       const fieldErrors: Record<string, string> = {};
@@ -129,7 +129,7 @@ export default function AuthPage() {
   const handleSellerSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
-    
+
     const result = sellerSignupSchema.safeParse(sellerSignupData);
     if (!result.success) {
       const fieldErrors: Record<string, string> = {};
@@ -141,11 +141,11 @@ export default function AuthPage() {
     }
 
     setIsLoading(true);
-    
+
     // First create the user account
     const { error: signUpError } = await signUp(
-      sellerSignupData.email, 
-      sellerSignupData.password, 
+      sellerSignupData.email,
+      sellerSignupData.password,
       sellerSignupData.fullName
     );
 
@@ -159,20 +159,22 @@ export default function AuthPage() {
       return;
     }
 
-    // Wait a moment for the user to be created
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
+    // Wait a moment for the user to be created and trigger to complete
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
     // Get the current session to get the user ID
     const { data: { session } } = await supabase.auth.getSession();
-    
+
     if (!session?.user) {
       setIsLoading(false);
       toast.error('Erro ao criar conta. Tente novamente.');
       return;
     }
 
+    console.log('[SellerSignup] User ID:', session.user.id);
+
     // Create seller profile
-    const { error: sellerError } = await supabase
+    const { data: sellerData, error: sellerError } = await supabase
       .from('seller_profiles')
       .insert({
         user_id: session.user.id,
@@ -181,27 +183,46 @@ export default function AuthPage() {
         terms_accepted: true,
         terms_accepted_at: new Date().toISOString(),
         status: 'pending'
-      });
+      })
+      .select()
+      .single();
 
     if (sellerError) {
       setIsLoading(false);
-      console.error('Seller profile error:', sellerError);
+      console.error('[SellerSignup] Seller profile error:', sellerError);
       toast.error('Conta criada, mas houve erro ao criar perfil de vendedor. Contacte o suporte.');
       navigate('/');
       return;
     }
 
-    // Add seller role
-    const { error: roleError } = await supabase
+    console.log('[SellerSignup] Seller profile created:', sellerData);
+
+    // Add seller role (in addition to the 'client' role added by trigger)
+    const { data: roleData, error: roleError } = await supabase
       .from('user_roles')
       .insert({
         user_id: session.user.id,
         role: 'seller'
-      });
+      })
+      .select();
 
     if (roleError) {
-      console.error('Role error:', roleError);
+      console.error('[SellerSignup] Role error:', roleError);
+      // If error is duplicate, that's OK - role already exists
+      if (!roleError.message?.includes('duplicate') && !roleError.code?.includes('23505')) {
+        toast.error('Erro ao atribuir role de vendedor. Contacte o suporte.');
+      }
+    } else {
+      console.log('[SellerSignup] Seller role added:', roleData);
     }
+
+    // Verify roles were added correctly
+    const { data: verifyRoles } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', session.user.id);
+
+    console.log('[SellerSignup] User roles after creation:', verifyRoles);
 
     // Refresh profile to get updated roles
     await refreshProfile();
@@ -286,15 +307,13 @@ export default function AuthPage() {
                 <button
                   type="button"
                   onClick={() => setSignupType('client')}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all ${
-                    signupType === 'client'
-                      ? 'border-primary bg-primary/5'
-                      : 'border-border hover:border-primary/50'
-                  }`}
+                  className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all ${signupType === 'client'
+                    ? 'border-primary bg-primary/5'
+                    : 'border-border hover:border-primary/50'
+                    }`}
                 >
-                  <div className={`flex h-12 w-12 items-center justify-center rounded-full ${
-                    signupType === 'client' ? 'bg-primary' : 'bg-muted'
-                  }`}>
+                  <div className={`flex h-12 w-12 items-center justify-center rounded-full ${signupType === 'client' ? 'bg-primary' : 'bg-muted'
+                    }`}>
                     <User className={`h-6 w-6 ${signupType === 'client' ? 'text-primary-foreground' : 'text-muted-foreground'}`} />
                   </div>
                   <span className={`font-medium ${signupType === 'client' ? 'text-primary' : 'text-foreground'}`}>
@@ -308,15 +327,13 @@ export default function AuthPage() {
                 <button
                   type="button"
                   onClick={() => setSignupType('seller')}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all ${
-                    signupType === 'seller'
-                      ? 'border-primary bg-primary/5'
-                      : 'border-border hover:border-primary/50'
-                  }`}
+                  className={`flex flex-col items-center gap-2 p-4 rounded-lg border-2 transition-all ${signupType === 'seller'
+                    ? 'border-primary bg-primary/5'
+                    : 'border-border hover:border-primary/50'
+                    }`}
                 >
-                  <div className={`flex h-12 w-12 items-center justify-center rounded-full ${
-                    signupType === 'seller' ? 'bg-primary' : 'bg-muted'
-                  }`}>
+                  <div className={`flex h-12 w-12 items-center justify-center rounded-full ${signupType === 'seller' ? 'bg-primary' : 'bg-muted'
+                    }`}>
                     <Store className={`h-6 w-6 ${signupType === 'seller' ? 'text-primary-foreground' : 'text-muted-foreground'}`} />
                   </div>
                   <span className={`font-medium ${signupType === 'seller' ? 'text-primary' : 'text-foreground'}`}>
@@ -513,8 +530,8 @@ export default function AuthPage() {
         <div className="max-w-md text-center text-primary-foreground">
           <div className="text-8xl mb-6">📚</div>
           <h2 className="font-display text-3xl font-bold mb-4">
-            {signupType === 'seller' && activeTab === 'signup' 
-              ? 'Torne-se um vendedor' 
+            {signupType === 'seller' && activeTab === 'signup'
+              ? 'Torne-se um vendedor'
               : 'A sua livraria online de confiança'
             }
           </h2>
