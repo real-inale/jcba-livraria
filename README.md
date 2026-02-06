@@ -1,73 +1,51 @@
-# Welcome to your Lovable project
+# Livraria JCBA
 
-## Project info
+Bem-vindo ao repositório da **Livraria JCBA**, a sua livraria online de confiança em Angola.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## 📖 Sobre o Projeto
 
-## How can I edit this code?
+Este projeto é uma plataforma de e-commerce completa dedicada à venda de livros físicos e digitais, conectando leitores e vendedores em todo o território nacional.
 
-There are several ways of editing your application.
+Nossa missão é facilitar o acesso à leitura, oferecendo uma experiência moderna, segura e eficiente para compra e venda de livros.
 
-**Use Lovable**
+## 👥 Autoria e Desenvolvimento
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+*   **Criador Original:** Gerson Andrade
+*   **Desenvolvimento Atual:** Inalex (Alexandre Daniel)
 
-Changes made via Lovable will be committed automatically to this repo.
+O projeto está sendo evoluído sob a liderança de Inalex para expandir funcionalidades e melhorar a experiência dos usuários.
 
-**Use your preferred IDE**
+## 🛠️ Tecnologias Utilizadas
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Este projeto é construído com tecnologias modernas para garantir performance e escalabilidade:
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+*   **Frontend:** React (Vite)
+*   **Linguagem:** TypeScript
+*   **Estilização:** Tailwind CSS
+*   **Componentes UI:** shadcn/ui
+*   **Backend/Banco de Dados:** Supabase
 
-Follow these steps:
+## 🚀 Como Executar Localmente
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Siga os passos abaixo para rodar o projeto em sua máquina:
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+1.  **Clone o repositório:**
+    ```bash
+    git clone <URL_DO_REPOSITORIO>
+    ```
 
-# Step 3: Install the necessary dependencies.
-npm i
+2.  **Instale as dependências:**
+    ```bash
+    npm install
+    ```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+3.  **Inicie o servidor de desenvolvimento:**
+    ```bash
+    npm run dev
+    ```
 
-**Edit a file directly in GitHub**
+O projeto estará disponível em `http://localhost:8080`.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+---
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+© Livraria JCBA. Todos os direitos reservados.
